@@ -1,0 +1,39 @@
+--create a clothing store database 
+
+CREATE TABLE clothing (id integer primary key, Type text, price integer, quantity integer);
+
+INSERT INTO clothing VALUES
+(1, 'shorts', 39, 3);
+INSERT INTO clothing VALUES
+(2, 'T-shirts', 10, 20);
+INSERT INTO clothing VALUES
+(3, ' mini skirts', 20, 25);
+INSERT INTO clothing VALUES
+(4, 'jeans', 25, 50);
+INSERT INTO clothing VALUES
+(5, 'chico', 10, 23);
+INSERT INTO clothing VALUES
+(6, 'skort', 40, 5);
+INSERT INTO clothing VALUES
+(7,'collared shirt', 25, 12);
+INSERT INTO clothing VALUES
+(8, 'cropped shirts', 10, 1);
+INSERT INTO clothing VALUES
+(9, 'maxi skirt', 50, 2);
+INSERT INTO clothing VALUES
+(10,'midi skirt', 40, 6);
+INSERT INTO clothing VALUES
+(11, 'mini dress', 35, 7);
+INSERT INTO clothing VALUES
+(12, 'midi dress', 23, 2);
+INSERT INTO clothing VALUES
+(13, 'maxi dress', 34, 1);
+INSERT INTO clothing VALUES
+(14, 'hats', 12, 20);
+INSERT INTO clothing VALUES
+(15,'box', 3, 14);
+
+--display the clothing order by price 
+Select *From clothing Order by price;
+-- What is the sum of the pricing on clothing? 
+Select Sum(price) From clothing; 
