@@ -1,0 +1,15 @@
+/* Create table about the people and what they do here */ 
+Create table m_stars (id integer Primary Key,song_id integer, F_name TEXT, L_name TEXT, star_movies TEXT, spouse TEXT, age INTEGER, country_born TEXT); 
+--Create and insert data relating to actors & actresses and their roles. 
+Insert into m_stars Values(1, 02,  "Milla", "Jovovich", "Resident Evil", "Paul W. S. Anderson", 47, "Ukraine"),(2, Null, "Michelle", "Rodriguez", "Dungeons & Dragons", "Not Married", 45, "US"), (3, Null, "Chris", "Pine", "Dungeons & Dragons", "Not Married", 42, "US"), (4, Null, "Regé-Jean", "Page", "Dungeons & Dragons", "Not Married", 35, "UK"),(5, Null, "Justice", "Smith", "Dungeons & Dragons", "Not Maried", 28, "US"), ( 6, 03,"Rina", "Sawayama", "John Wick 4", "Not Married", 33, "Japan"), (7, 04, "Keanu"," Reeves", "John Wick 4","Not Married", 58, "Lebanon"), (8, 06, "Lady", "Gaga", "A star is born", "Not Married", 37, "US"),(9, 07, "Jennifer", "Lopez", "The Mother", " Ben Affleck ", 54, "US") ;
+-- Create a table with artists and their song titles 
+Create table song_artists( song_id INTEGER Primary key, F_name TEXT, L_name TEXT, song_name TEXT);
+
+Insert into song_artists Values (01, "Lauren", " Badic", "Dead Man Walking"),(03, "Rina", "Sawayama", "Frankenstein"), (04, "Keanu"," Reeves", "Cornerstore"), (05, "George", "Miller", "Yeah Right"), (02, "Milla", "Jovovich", "Gentleman Who Fell"),( 06, "Lady", "Gaga", "Pokerface"), (07, "Jennifer", "Lopez", "On the Floor"); 
+
+-Join the two tables to see and pull information on song title, and which actors/ actresses have an artist history.
+
+Select m_stars.F_name, m_stars.L_name, s_art.song_name From m_stars 
+Left Join song_artists as s_art
+on m_stars.song_id = s_art.song_id
+Order by m_stars.L_name; 
