@@ -1,0 +1,62 @@
+# In this SQL, I am querying a database with multiple tables to gather and analyze statistics relating to customer and order data. 
+
+/*-- Find how many orders where ordered in the month of January.*/
+
+SELECT Count(*) as Total_orders From BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'OrderID';
+
+/*--  Results: Total_orders 9681 ---*/
+
+/* --How many orders in January were iPhones -- */
+Select Count(*) as Total_products 
+From BIT_DB.JanSales
+Where length(orderID) = 6 AND Product = "iPhone"
+AND orderID <> 'OrderID';
+
+/*--- Select the account #'s that have orders in Feb?---*/ 
+/*acctnum
+40161414
+54428584
+59221952
+88742323
+78191203
+74990905
+52970206
+30785465
+53139396
+28100900
+/*
+Select acctnum From BIT_DB.customers
+Join FebSales
+on customers.order_id = FebSales.orderID
+WHERE length(orderID) = 6
+AND orderID <> 'OrderID'
+LIMIT 10;
+
+/*What was the cheapest item for January and what was the price it sold at?  */ 
+/* Result: AAA Batteries (4-pack)	2.99  */ 
+Select product, min(price) as min_price From BIT_DB.JanSales;
+
+/*--What is the total revenue for each product sold in January? */
+Select product, ROUND(SUM(price * quantity), 2) as total_revenue 
+From BIT_DB.JanSales
+Group by product;
+
+/*-- Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+Product	Quantity	rev
+AA Batteries (4-pack)	2	7.68*/
+Select Product, Quantity, ROUND(SUM(price * Quantity),2) as rev
+From BIT_DB.FebSales
+Where location  = '548 Lincoln St, Seattle, WA 98101';
+
+
+/*---How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers? */ 
+/* cust_count	avg_cost
+278	13.83 */ 
+Select Count(orderID) as cust_count, ROUND(AVG(price * Quantity),2) as avg_cost
+From BIT_DB.FebSales
+Left Join BIT_DB.customers
+on FebSales.orderID = customers.order_id
+WHERE length(orderID) = 6 and Quantity > 2
+AND orderID <> 'OrderID';
