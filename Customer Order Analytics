@@ -44,7 +44,7 @@ From BIT_DB.JanSales
 Group by product;
 
 /*-- Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
-Product	Quantity	rev
+ Product	Quantity	rev
 AA Batteries (4-pack)	2	7.68*/
 Select Product, Quantity, ROUND(SUM(price * Quantity),2) as rev
 From BIT_DB.FebSales
@@ -52,7 +52,7 @@ Where location  = '548 Lincoln St, Seattle, WA 98101';
 
 
 /*---How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers? */ 
-/* cust_count	avg_cost
+/* Answer:cust_count	avg_cost
 278	13.83 */ 
 Select Count(orderID) as cust_count, ROUND(AVG(price * Quantity),2) as avg_cost
 From BIT_DB.FebSales
@@ -66,4 +66,28 @@ Select  distinct Product, SUM(Quantity)
 From BIT_DB.FebSales
 Where location like '%Los Angeles%' 
 Group by Product ;
+
+/* --What was the average quantity of products purchased per account in February?-- */ 
+/*Answer: avg_quantity : 1*/
+
+Select SUM(quantity)/ Count(cust.order_id) as avg_quantity
+From BIT_DB.FebSales as F_sales
+Left Join BIT_DB.customers as cust
+on F_sales.orderID = cust.order_id
+WHERE length(orderID) = 6
+AND orderID <> 'OrderID'; 
+
+/*-- Which product brought in the most revenue in January and how much revenue did it bring in total?-- */
+/*Answer: Product	highest_rev 
+Macbook Pro Laptop	399500*/ 
+
+Select distinct Product, SUM(quantity * price) as highest_rev
+From BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'OrderID'
+Group by Product
+Order by highest_rev DESC
+LIMIT 1  ; 
+
+
 
