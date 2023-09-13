@@ -55,3 +55,19 @@ FROM Spotifydata;
 Select track_name
 From Spotifydata
 Where artist_name like '%Olivia%';
+
+/* Calculate the average popularity for the artists in the Spotify data table.
+ Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”. */
+ 
+With popularity_spotify AS ( 
+Select 
+artist_name,
+AVG(s.popularity) as avg_pop
+From Spotifydata  as s
+Group by s.artist_name
+)
+Select avg_pop, 
+artist_name , 
+'Top Star' AS label 
+From popularity_spotify 
+where avg_pop >= 90 ;
