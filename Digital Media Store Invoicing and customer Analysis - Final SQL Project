@@ -1,0 +1,60 @@
+## This project's object if to analyze a Digital Media Store's customer and invoicing dataset. 
+
+/* Which customers has the highest invoice amount and what track or playlist did they buy. */
+Select 'customers'.FirstName, 'customers'.LastName, SUM(distinct'invoices'.Total) as total_purchased
+From 'customers'
+JOIN 'invoices'
+on 'invoices'.CustomerId = 'customers'.CustomerId
+Group by 'customers'.CustomerId
+Order by total_purchased DESC; 
+
+/* Show Customers (their full names, customer ID, and country) who are not in the US.*/
+Select FirstName, LastName, Country, CustomerId
+From 'customers'
+Where Country != 'USA';
+
+/* Show only the Customers from Brazil.*/
+Select * From 'customers'
+Where Country = 'Brazil'; 
+
+/* Show the number of employees who have the Sales Agent role*/
+Select Count(*) as num_sales_agents From 'employees'
+Where Title like '%Sales%Agent%';
+
+/* Show the total sales made by each sales agent.*/ 
+Select ROUND(SUM(Total),2) as total_sales, FirstName, LastName, Title
+ From 'employees' emp
+ Join 'customers' c
+ on 'emp'.EmployeeId = 'c'.SupportRepId
+ Join 'invoices' inv
+ on 'c'.CustomerId = 'inv'.CustomerId
+ Group by employeeId; 
+
+/* Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.*/
+Select invoices.* , FirstName, LastName, Title
+ From employees
+ Join customers
+ on employees.EmployeeId = customers.SupportRepId
+ Join invoices 
+ on customers.CustomerId = invoices.CustomerId; 
+
+/* How many Invoices were there in 2009? */
+Select Count(*) From 'invoices'
+Where InvoiceDate like '%2009%';
+
+/*Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.*/
+Select tracks.Name,mt.Name as 'Media type',  g.Name as 'Genre' From 'chinook'.tracks
+Join media_types mt
+on tracks.MediaTypeId = mt.MediaTypeId
+Join genres g
+on tracks.GenreId = g.GenreId; 
+
+/*Write a query that includes the purchased track name AND artist name with each invoice line ID.*/ 
+Select 'it'.InvoiceLineId, 't'.Name as 'track_name', 'ar'.Name as 'artist'
+From 'invoice_items' it
+Left Join 'tracks't
+on 't'.TrackId = 'it'.TrackId
+Inner Join 'albums' ab
+on 'ab'.AlbumId = 't'.AlbumId
+Left Join 'artists' ar
+on 'ar'.ArtistId = 'ab'.ArtistId;
